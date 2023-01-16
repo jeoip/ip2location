@@ -62,4 +62,12 @@ class SubnetV6 extends Model
     {
         return $this->belongsTo(Location::class);
     }
+
+    /**
+     * @return BelongsTo<Asn,self>
+     */
+    public function asn(): BelongsTo
+    {
+        return $this->belongsTo(Asn::class);
+    }
 }

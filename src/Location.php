@@ -23,6 +23,8 @@ class Location extends CommonLocation
         return new self(
             $location->countryCode,
             $subnet->cidr,
+            $subnet->asn_id,
+            $subnet->asn->title,
             $location->country,
             $location->region,
             $location->city,
@@ -36,6 +38,8 @@ class Location extends CommonLocation
     protected string $country;
     protected string $region;
     protected string $city;
+    protected int    $asn;
+    protected string $asn_org;
     protected float $latitude;
     protected float $longitude;
     protected string $zipcode;
@@ -44,6 +48,8 @@ class Location extends CommonLocation
     public function __construct(
         string $countryCode,
         ICidr $subnet,
+        int $asn,
+        string $asn_org,
         string $country,
         string $region,
         string $city,
@@ -54,6 +60,8 @@ class Location extends CommonLocation
     ) {
         $this->setCountryCode($countryCode);
         $this->setSubnet($subnet);
+        $this->setAsn($asn);
+        $this->setAsnOrg($asn_org);
         $this->setCountry($country);
         $this->setRegion($region);
         $this->setCity($city);
@@ -61,6 +69,26 @@ class Location extends CommonLocation
         $this->setLongitude($longitude);
         $this->setZipcode($zipcode);
         $this->setTimezone($timezone);
+    }
+
+    public function getAsn(): string
+    {
+        return $this->asn;
+    }
+
+    public function setAsn(int $asn): void
+    {
+        $this->asn = $asn;
+    }
+
+    public function getAsnOrg(): string
+    {
+        return $this->asn;
+    }
+
+    public function setAsnOrg(string $asn_org): void
+    {
+        $this->asn_org = $asn_org;
     }
 
     public function getCountry(): string
@@ -134,14 +162,17 @@ class Location extends CommonLocation
     }
 
     /**
-     * @return array{countryCode:string,subnet:string,country:string,region:string,city:string,latitude:float,longitude:float,zipcode:string,timezone:string}
+     * @return array{countryCode:string,subnet:string,country:string,countryCode:string,region:string,city:string,asn:int,asn_org:string,latitude:float,longitude:float,zipcode:string,timezone:string}
      */
     public function jsonSerialize(): array
     {
         $data = parent::jsonSerialize();
         $data['country'] = $this->country;
+        $data['country_eu'] = $this->countryCode;
         $data['region'] = $this->region;
         $data['city'] = $this->city;
+        $data['asn'] = $this->asn;
+        $data['asn_org'] = $this->asn_org;
         $data['latitude'] = $this->latitude;
         $data['longitude'] = $this->longitude;
         $data['zipcode'] = $this->zipcode;
