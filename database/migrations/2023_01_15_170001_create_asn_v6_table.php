@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Jeoip\Ip2Location\Models\Location;
 
 return new class() extends Migration {
     /**
@@ -13,16 +12,13 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('jeoip_ip2location_subnets_v6', function (Blueprint $table) {
-            $table->id();
-
+        Schema::create('jeoip_ip2location_asn_v6', function (Blueprint $table) {
+            $table->id('id');
             $table->decimal('network_start', 39, 0);
             $table->decimal('network_end', 39, 0);
-            $table->foreignIdFor(Location::class, 'location_id')
-                ->constrained('jeoip_ip2location_locations')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
             $table->string('cidr', 39);
+            $table->string('title');
+            $table->timestamps();
 
             $table->index(['network_start', 'network_end']);
         });
@@ -35,6 +31,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('jeoip_ip2location_subnets_v6');
+        Schema::dropIfExists('jeoip_ip2location_asn_v6');
     }
 };

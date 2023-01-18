@@ -12,8 +12,9 @@ class Location extends CommonLocation
 {
     /**
      * @param SubnetV4|SubnetV6 $subnet
+     * @param AsnV4|AsnV6|null  $asn
      */
-    public static function fromSubnet($subnet): self
+    public static function create($subnet, $asn): self
     {
         $location = $subnet->location;
         if (null === $location) {
@@ -23,11 +24,11 @@ class Location extends CommonLocation
         return new self(
             $location->countryCode,
             $subnet->cidr,
-            $subnet->asn_id,
-            $subnet->asn?->title,
             $location->country,
             $location->region,
             $location->city,
+            $asn?->id,
+            $asn?->title,
             $location->latitude,
             $location->longitude,
             $location->zipcode,
@@ -48,11 +49,11 @@ class Location extends CommonLocation
     public function __construct(
         string $countryCode,
         ICidr $subnet,
-        ?int $asn,
-        ?string $asn_org,
         string $country,
         string $region,
         string $city,
+        ?int $asn,
+        ?string $asn_org,
         float $latitude,
         float $longitude,
         string $zipcode,

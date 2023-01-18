@@ -18,7 +18,8 @@ class GeoIPServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Console\Commands\ImportData::class,
+                Console\Commands\ImportSubnet::class,
+        Console\Commands\ImportAsn::class,
             ]);
         }
     }

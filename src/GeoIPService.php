@@ -6,6 +6,8 @@ use Jeoip\Common\Exceptions\QueryException;
 use Jeoip\Common\Exceptions\UnknownLocationException;
 use Jeoip\Common\Utilities;
 use Jeoip\Contracts\IGeoIPService;
+use Jeoip\Ip2Location\Models\AsnV4;
+use Jeoip\Ip2Location\Models\AsnV6;
 use Jeoip\Ip2Location\Models\SubnetV4;
 use Jeoip\Ip2Location\Models\SubnetV6;
 
@@ -31,7 +33,10 @@ class GeoIPService implements IGeoIPService
             throw new UnknownLocationException($ipv4);
         }
 
-        return Location::fromSubnet($subnet);
+        $longIP = Utilities::ipToDec($ipv4);
+        $asn = AsnV4::where('network_start', '>=', $longIP)->where('network_end', '<=', $longIP)->first();
+
+        return Location::create($subnet, $asn);
     }
 
     public function queryIPv6(string $ipv6): Location
@@ -41,6 +46,9 @@ class GeoIPService implements IGeoIPService
             throw new UnknownLocationException($ipv6);
         }
 
-        return Location::fromSubnet($subnet);
+        $longIP = Utilities::ipToDec($ipv6);
+        $asn = AsnV6::where('network_start', '>=', $longIP)->where('network_end', '<=', $longIP)->first();
+
+        return Location::create($subnet, $asn);
     }
 }

@@ -12,10 +12,15 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('jeoip_ip2location_asn', function (Blueprint $table) {
+        Schema::create('jeoip_ip2location_asn_v4', function (Blueprint $table) {
             $table->id('id');
+            $table->unsignedInteger('network_start');
+            $table->unsignedInteger('network_end');
+            $table->string('cidr', 18);
             $table->string('title');
             $table->timestamps();
+
+            $table->index(['network_start', 'network_end']);
         });
     }
 
@@ -26,6 +31,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('jeoip_ip2location_asn');
+        Schema::dropIfExists('jeoip_ip2location_asn_v4');
     }
 };

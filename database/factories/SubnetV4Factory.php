@@ -3,7 +3,6 @@
 namespace Jeoip\Ip2Location\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Jeoip\Ip2Location\Models\Asn;
 use Jeoip\Ip2Location\Models\Location;
 use Jeoip\Ip2Location\Models\SubnetV4;
 
@@ -22,7 +21,6 @@ class SubnetV4Factory extends Factory
             'network_start' => 16777216,
             'network_end' => 16777471,
             'location' => Location::class,
-            'asn_id' => Asn::class,
             'cidr' => '1.0.0.0/22',
         ];
     }

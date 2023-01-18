@@ -4,19 +4,19 @@ namespace Jeoip\Ip2Location\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Jeoip\Ip2Location\Database\Factories\AsnFactory;
+use Jeoip\Ip2Location\Database\Factories\AsnV6Factory;
 
-class Asn extends Model
+class AsnV6 extends Model
 {
     use HasFactory;
     /**
      * @var string
      */
-    protected $table = 'jeoip_ip2location_asn';
+    protected $table = 'jeoip_ip2location_asn_v6';
 
     protected static function newFactory()
     {
-        return AsnFactory::new();
+        return AsnV6Factory::new();
     }
 
     /**
@@ -24,6 +24,9 @@ class Asn extends Model
      */
     protected $fillable = [
         'id',
+        'network_start',
+        'network_end',
+        'cidr',
         'title',
     ];
 }
