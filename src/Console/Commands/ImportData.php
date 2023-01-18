@@ -162,8 +162,9 @@ class ImportData extends Command
     protected function saveAsn(string $model, array $data)
     {
         $asn = Asn::updateOrCreate(['id' => $data['asn']], ['title' => $data['as']]);
+        $cidr = Cidr::fromRange($data['network_start'], $data['network_end']);
 
-        return $model::where(['network_start' => $data['network_start'], 'network_end' => $data['network_end']])
+        return $model::where('cidr', $cidr)
             ->update(['asn_id' => $asn->id]);
     }
 
