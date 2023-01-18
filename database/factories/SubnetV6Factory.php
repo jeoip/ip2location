@@ -18,10 +18,10 @@ class SubnetV6Factory extends Factory
     public function definition()
     {
         return [
-            'network_start' => 281470698520576,
-            'network_end' => 281470698520831,
+            'network_start' => 42540488161975842760550356425300246528,
+            'network_end' => 42540488241204005274814694018844196863,
             'location' => Location::class,
-            'cidr' => '::ffff:1.0.0.0/118',
+            'cidr' => '2001::/32',
         ];
     }
 }

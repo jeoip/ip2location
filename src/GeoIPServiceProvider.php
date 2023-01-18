@@ -19,7 +19,7 @@ class GeoIPServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Console\Commands\ImportSubnet::class,
-        Console\Commands\ImportAsn::class,
+                Console\Commands\ImportAsn::class,
             ]);
         }
     }
