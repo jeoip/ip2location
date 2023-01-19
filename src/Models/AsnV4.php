@@ -23,10 +23,10 @@ class AsnV4 extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id',
         'network_start',
         'network_end',
         'cidr',
+        'asn',
         'title',
     ];
 }

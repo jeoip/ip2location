@@ -17,6 +17,7 @@ return new class() extends Migration {
             $table->decimal('network_start', 39, 0);
             $table->decimal('network_end', 39, 0);
             $table->string('cidr', 39);
+            $table->integer('asn');
             $table->string('title');
             $table->timestamps();
 

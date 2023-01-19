@@ -17,7 +17,7 @@ class AsnV4Factory extends Factory
     public function definition()
     {
         return [
-            'id' => 13335,
+            'asn' => 13335,
             'network_start' => 16777216,
             'network_end' => 16777471,
             'cidr' => '1.0.0.0/22',

@@ -27,7 +27,7 @@ class Location extends CommonLocation
             $location->country,
             $location->region,
             $location->city,
-            $asn?->id,
+            $asn?->asn,
             $asn?->title,
             $location->latitude,
             $location->longitude,

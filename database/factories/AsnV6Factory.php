@@ -17,7 +17,7 @@ class AsnV6Factory extends Factory
     public function definition()
     {
         return [
-            'id' => 6939,
+            'asn' => 6939,
             'network_start' => 42540488161975842760550356425300246528,
             'network_end' => 42540488241204005274814694018844196863,
             'cidr' => '2001::/32',

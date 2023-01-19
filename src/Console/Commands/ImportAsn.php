@@ -13,7 +13,7 @@ use SplFileObject;
  * 		network_start:string,
  * 		network_end:string,
  * 		cidr:string,
- * 		id:integer,
+ * 		asn:integer,
  * 		title:string,
  * 	}
  */
@@ -53,7 +53,7 @@ class ImportAsn extends Command
             }
 
             $row = $this->parseCsv($row);
-            if ('-' == $row['id']) {
+            if ('-' == $row['asn']) {
                 continue;
             }
 
@@ -72,7 +72,7 @@ class ImportAsn extends Command
             'network_start',
             'network_end',
             'cidr',
-            'id',
+            'asn',
             'title',
         ];
 
@@ -97,6 +97,16 @@ class ImportAsn extends Command
      */
     protected function save($model, array $data)
     {
-        return $model::updateOrCreate(['id' => $data['id']], $data);
+        return $model::updateOrCreate(
+            [
+                'network_start' => $data['network_start'],
+                'network_end' => $data['network_end'],
+            ],
+            [
+                'cidr' => $data['cidr'],
+                'asn' => $data['asn'],
+                'title' => $data['title'],
+            ]
+        );
     }
 }
