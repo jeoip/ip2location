@@ -47,7 +47,7 @@ class GeoIPService implements IGeoIPService
         }
 
         $longIP = Utilities::ipToDec($ipv6);
-        $asNetwork = AsnV6::where('network_start', '<=', $longIP)->where('network_end', '>=', $longIP)->first();
+        $asNetwork = AsnV6::where('network_start', '<=', $longIP)->where('network_end', '>', $longIP)->first();
 
         return Location::create($subnet, $asNetwork?->asn);
     }
