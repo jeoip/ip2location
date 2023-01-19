@@ -5,16 +5,13 @@ namespace Jeoip\Ip2Location;
 use Jeoip\Common\Exceptions\Exception;
 use Jeoip\Common\Location as CommonLocation;
 use Jeoip\Contracts\ICidr;
+use Jeoip\Ip2Location\Models\Asn;
 use Jeoip\Ip2Location\Models\SubnetV4;
 use Jeoip\Ip2Location\Models\SubnetV6;
 
 class Location extends CommonLocation
 {
-    /**
-     * @param SubnetV4|SubnetV6 $subnet
-     * @param AsnV4|AsnV6|null  $asn
-     */
-    public static function create($subnet, $asn): self
+    public static function create(SubnetV4|SubnetV6 $subnet, ?Asn $asn): self
     {
         $location = $subnet->location;
         if (null === $location) {
@@ -27,7 +24,7 @@ class Location extends CommonLocation
             $location->country,
             $location->region,
             $location->city,
-            $asn?->asn,
+            $asn?->id,
             $asn?->title,
             $location->latitude,
             $location->longitude,

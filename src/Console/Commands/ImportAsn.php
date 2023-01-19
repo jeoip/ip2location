@@ -4,6 +4,7 @@ namespace Jeoip\Ip2Location\Console\Commands;
 
 use Illuminate\Console\Command;
 use Jeoip\Common\Exceptions\Exception;
+use Jeoip\Ip2Location\Models\Asn;
 use Jeoip\Ip2Location\Models\AsnV4;
 use Jeoip\Ip2Location\Models\AsnV6;
 use SplFileObject;
@@ -97,15 +98,15 @@ class ImportAsn extends Command
      */
     protected function save($model, array $data)
     {
-        return $model::updateOrCreate(
+        $asn = Asn::query()->updateOrCreate(['id' => $data['asn']], ['title' => $data['title']]);
+        return $model::query()->updateOrCreate(
             [
                 'network_start' => $data['network_start'],
                 'network_end' => $data['network_end'],
             ],
             [
                 'cidr' => $data['cidr'],
-                'asn' => $data['asn'],
-                'title' => $data['title'],
+                'asn_id' => $asn->id,
             ]
         );
     }

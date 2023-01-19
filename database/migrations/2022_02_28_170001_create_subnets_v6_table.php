@@ -23,7 +23,6 @@ return new class() extends Migration {
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('cidr', 39);
-
             $table->index(['network_start', 'network_end']);
         });
     }
