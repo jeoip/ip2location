@@ -24,12 +24,12 @@ use SplFileObject;
  * 		timezone:string
  * 	}
  */
-class ImportData extends Command
+class ImportSubnet extends Command
 {
     /**
      * @var string
      */
-    protected $signature = 'jeoip:ip2location:import
+    protected $signature = 'jeoip:ip2location:import:subnet
 		{--ipv=}
 		{file}';
 
@@ -44,32 +44,34 @@ class ImportData extends Command
         if (!is_string($file) or !is_file($file)) {
             throw new Exception('{file} is not valid file');
         }
+
         $ipv = intval($this->option('ipv'));
-        if (4 != $ipv and 6 != $ipv) {
+        if (!in_array($ipv, [4, 6])) {
             throw new Exception('--ipv must be 4 or 6');
         }
-        if ($ipv == 4) {
-            $model = SubnetV4::class;
-        } else {
-            $model = SubnetV6::class;
-        }
-    
+
+        $model = 4 == $ipv ? SubnetV4::class : SubnetV6::class;
+
         $fd = new SplFileObject($file, 'r');
         while (!$fd->eof()) {
             $row = $fd->fgetcsv();
             if (!$row) {
                 continue;
             }
+
             $row = $this->parseCsv($row);
+
             if ('-' == $row['countryCode']) {
                 continue;
             }
+
             $this->save($model, $row);
         }
     }
 
     /**
      * @param array<string> $data
+     *
      * @return CsvData
      */
     protected function parseCsv(array $data)
@@ -86,15 +88,17 @@ class ImportData extends Command
             'zipcode',
             'timezone',
         ];
+
         $count = count($data);
         if ($count != count($columns)) {
             throw new Exception('Csv data is not supported');
         }
         $data = array_combine($columns, $data);
+
         $data['latitude'] = floatval($data['latitude']);
         $data['longitude'] = floatval($data['longitude']);
 
-        /**
+        /*
          * @var CsvData
          */
         return $data;
@@ -102,7 +106,7 @@ class ImportData extends Command
 
     /**
      * @param class-string<SubnetV4|SubnetV6> $model
-     * @param CsvData         $data
+     * @param CsvData                         $data
      *
      * @return SubnetV4|SubnetV6
      */
