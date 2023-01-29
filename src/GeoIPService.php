@@ -13,8 +13,11 @@ use Jeoip\Ip2Location\Models\SubnetV6;
 
 class GeoIPService implements IGeoIPService
 {
-    public function query(string $ip): Location
+    public function query(?string $ip = null): Location
     {
+        if (null === $ip) {
+            throw new QueryException('ip cannot be null', '');
+        }
         if (!Utilities::isIp($ip)) {
             throw new QueryException("It's not valid ip", $ip);
         }
@@ -36,7 +39,7 @@ class GeoIPService implements IGeoIPService
         $longIP = Utilities::ipToDec($ipv4);
         $asNetwork = AsnV4::where('network_start', '<=', $longIP)->where('network_end', '>', $longIP)->first();
 
-        return Location::create($subnet, $asNetwork?->asn);
+        return Location::create($ipv4, $subnet, $asNetwork?->asn);
     }
 
     public function queryIPv6(string $ipv6): Location
@@ -49,6 +52,6 @@ class GeoIPService implements IGeoIPService
         $longIP = Utilities::ipToDec($ipv6);
         $asNetwork = AsnV6::where('network_start', '<=', $longIP)->where('network_end', '>', $longIP)->first();
 
-        return Location::create($subnet, $asNetwork?->asn);
+        return Location::create($ipv6, $subnet, $asNetwork?->asn);
     }
 }

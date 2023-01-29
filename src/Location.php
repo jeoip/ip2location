@@ -11,7 +11,7 @@ use Jeoip\Ip2Location\Models\SubnetV6;
 
 class Location extends CommonLocation
 {
-    public static function create(SubnetV4|SubnetV6 $subnet, ?Asn $asn): self
+    public static function create(string $query, SubnetV4|SubnetV6 $subnet, ?Asn $asn): self
     {
         $location = $subnet->location;
         if (null === $location) {
@@ -19,6 +19,7 @@ class Location extends CommonLocation
         }
 
         return new self(
+            $query,
             $location->countryCode,
             $subnet->cidr,
             $location->country,
@@ -33,6 +34,7 @@ class Location extends CommonLocation
         );
     }
 
+    protected string $query;
     protected string $country;
     protected string $region;
     protected string $city;
@@ -44,6 +46,7 @@ class Location extends CommonLocation
     protected string $timezone;
 
     public function __construct(
+        string $query,
         string $countryCode,
         ICidr $subnet,
         string $country,
@@ -56,6 +59,7 @@ class Location extends CommonLocation
         string $zipcode,
         string $timezone,
     ) {
+        $this->setQuery($query);
         $this->setCountryCode($countryCode);
         $this->setSubnet($subnet);
         $this->setAsn($asn);
