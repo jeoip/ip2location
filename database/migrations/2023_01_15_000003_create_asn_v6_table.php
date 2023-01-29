@@ -15,10 +15,10 @@ return new class() extends Migration {
                 ->nullable();
 
             $table->index(['network_start', 'network_end']);
-            $table->unique("network_start");
-            $table->foreign("asn_id")
-                ->references("id")
-                ->on("jeoip_ip2location_asn")
+            $table->unique('network_start');
+            $table->foreign('asn_id')
+                ->references('id')
+                ->on('jeoip_ip2location_asn')
                 ->nullOnDelete();
         });
     }

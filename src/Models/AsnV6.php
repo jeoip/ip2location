@@ -9,10 +9,9 @@ use Jeoip\Ip2Location\Database\Factories\AsnV6Factory;
 
 class AsnV6 extends Model
 {
-    const CREATED_AT = null;
-    const UPDATED_AT = null;
-
     use HasFactory;
+    public const CREATED_AT = null;
+    public const UPDATED_AT = null;
     /**
      * @var string
      */

@@ -8,7 +8,6 @@ use Jeoip\Common\Exceptions\Exception;
 use Jeoip\Ip2Location\Models\Location;
 use Jeoip\Ip2Location\Models\SubnetV4;
 use Jeoip\Ip2Location\Models\SubnetV6;
-use SplFileObject;
 
 /**
  * @phpstan-type CsvData array{
@@ -52,7 +51,7 @@ class ImportSubnet extends Command
 
         $model = 4 == $ipv ? SubnetV4::class : SubnetV6::class;
 
-        $fd = new SplFileObject($file, 'r');
+        $fd = new \SplFileObject($file, 'r');
         while (!$fd->eof()) {
             $row = $fd->fgetcsv();
             if (!$row) {

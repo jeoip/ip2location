@@ -9,10 +9,9 @@ use Jeoip\Ip2Location\Database\Factories\AsnV4Factory;
 
 class AsnV4 extends Model
 {
-    const CREATED_AT = null;
-    const UPDATED_AT = null;
-
     use HasFactory;
+    public const CREATED_AT = null;
+    public const UPDATED_AT = null;
     /**
      * @var string
      */
@@ -33,7 +32,8 @@ class AsnV4 extends Model
         'asn_id',
     ];
 
-    public function asn(): BelongsTo {
+    public function asn(): BelongsTo
+    {
         return $this->belongsTo(Asn::class);
     }
 }

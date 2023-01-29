@@ -7,7 +7,6 @@ use Jeoip\Common\Exceptions\Exception;
 use Jeoip\Ip2Location\Models\Asn;
 use Jeoip\Ip2Location\Models\AsnV4;
 use Jeoip\Ip2Location\Models\AsnV6;
-use SplFileObject;
 
 /**
  * @phpstan-type CsvData array{
@@ -46,7 +45,7 @@ class ImportAsn extends Command
 
         $model = 4 == $ipv ? AsnV4::class : AsnV6::class;
 
-        $fd = new SplFileObject($file, 'r');
+        $fd = new \SplFileObject($file, 'r');
         while (!$fd->eof()) {
             $row = $fd->fgetcsv();
             if (!$row) {
@@ -99,6 +98,7 @@ class ImportAsn extends Command
     protected function save($model, array $data)
     {
         $asn = Asn::query()->updateOrCreate(['id' => $data['asn']], ['title' => $data['title']]);
+
         return $model::query()->updateOrCreate(
             [
                 'network_start' => $data['network_start'],
